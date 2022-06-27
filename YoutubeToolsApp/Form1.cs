@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO.Compression;
 using System.Net;
 using System.Web;
@@ -118,6 +119,41 @@ namespace YoutubeToolsApp
             }
 
             btnUpdateYdl.Enabled = true;
+        }
+
+        private async void btnDownload_Click(object sender, EventArgs e)
+        {
+            var p = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                 {
+                     FileName = "youtube-dl.exe",
+                     Arguments = $"-x --audio-format mp3 {webView.Source.ToString()}",
+                     UseShellExecute = false,
+                     RedirectStandardOutput = true,
+                     RedirectStandardError = true,
+                     CreateNoWindow = true
+                 }
+            };
+
+            p.OutputDataReceived += P_OutputDataReceived;
+            p.EnableRaisingEvents = true;
+
+            btnDownload.Enabled = false;
+
+            p.Start();
+
+            p.BeginOutputReadLine();
+            p.BeginErrorReadLine();
+
+            await p.WaitForExitAsync();
+            btnDownload.Enabled = true;
+
+        }
+
+        private void P_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            tbOutput.Invoke(() => tbOutput.AppendText($"\r\n{e.Data}"));
         }
     }
 }

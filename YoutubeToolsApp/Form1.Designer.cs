@@ -37,6 +37,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tbOutput = new System.Windows.Forms.TextBox();
             this.btnDownload = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.pbFfmpeg = new System.Windows.Forms.ProgressBar();
@@ -133,6 +134,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.tbOutput);
             this.groupBox1.Controls.Add(this.btnDownload);
             this.groupBox1.Location = new System.Drawing.Point(12, 333);
             this.groupBox1.Name = "groupBox1";
@@ -141,14 +143,29 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Download Control";
             // 
+            // tbOutput
+            // 
+            this.tbOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbOutput.BackColor = System.Drawing.Color.Black;
+            this.tbOutput.Font = new System.Drawing.Font("Lucida Console", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tbOutput.ForeColor = System.Drawing.Color.White;
+            this.tbOutput.Location = new System.Drawing.Point(6, 112);
+            this.tbOutput.Multiline = true;
+            this.tbOutput.Name = "tbOutput";
+            this.tbOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbOutput.Size = new System.Drawing.Size(593, 56);
+            this.tbOutput.TabIndex = 1;
+            // 
             // btnDownload
             // 
             this.btnDownload.Location = new System.Drawing.Point(6, 22);
             this.btnDownload.Name = "btnDownload";
-            this.btnDownload.Size = new System.Drawing.Size(131, 60);
+            this.btnDownload.Size = new System.Drawing.Size(131, 23);
             this.btnDownload.TabIndex = 0;
             this.btnDownload.Text = "Download";
             this.btnDownload.UseVisualStyleBackColor = true;
+            this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
             // 
             // groupBox2
             // 
@@ -278,6 +295,7 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -309,5 +327,6 @@
         private GroupBox groupBox3;
         private ProgressBar pbFfmpeg;
         private ProgressBar pbYdl;
+        private TextBox tbOutput;
     }
 }
