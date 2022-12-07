@@ -18,8 +18,16 @@ namespace YoutubeToolsApp
         {
             if (webView != null && webView.CoreWebView2 != null)
             {
-                webView.CoreWebView2.Navigate($"https://www.youtube.com/results?search_query={HttpUtility.HtmlEncode(tbSearch.Text)}");
+                if (IsYoutubeUrl(tbSearch.Text))
+                    webView.CoreWebView2.Navigate($"{HttpUtility.HtmlEncode(tbSearch.Text)}");
+                else
+                    webView.CoreWebView2.Navigate($"https://www.youtube.com/results?search_query={HttpUtility.HtmlEncode(tbSearch.Text)}");
             }
+        }
+
+        private bool IsYoutubeUrl(string url)
+        {
+            return tbSearch.Text.Contains("youtube.com/watch?");
         }
 
         private async void Form1_Load(object sender, EventArgs e)
@@ -147,6 +155,7 @@ namespace YoutubeToolsApp
             p.BeginErrorReadLine();
 
             await p.WaitForExitAsync();
+            tbOutput.Invoke(() => tbOutput.AppendText($"\r\nDOWNLOAD COMPLETE"));
             btnDownload.Enabled = true;
 
         }
@@ -154,6 +163,36 @@ namespace YoutubeToolsApp
         private void P_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             tbOutput.Invoke(() => tbOutput.AppendText($"\r\n{e.Data}"));
+        }
+
+        private async void btnDownloadVideo_Click(object sender, EventArgs e)
+        {
+            var p = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "youtube-dl.exe",
+                    Arguments = $"{webView.Source.ToString()}",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true
+                }
+            };
+
+            p.OutputDataReceived += P_OutputDataReceived;
+            p.EnableRaisingEvents = true;
+
+            btnDownload.Enabled = false;
+
+            p.Start();
+
+            p.BeginOutputReadLine();
+            p.BeginErrorReadLine();
+
+            await p.WaitForExitAsync();
+            tbOutput.Invoke(() => tbOutput.AppendText($"\r\nDOWNLOAD COMPLETE"));
+            btnDownload.Enabled = true;
         }
     }
 }

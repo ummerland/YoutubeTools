@@ -49,6 +49,7 @@
             this.btnUpdateYdl = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.pbYdl = new System.Windows.Forms.ProgressBar();
+            this.btnDownloadVideo = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.webView)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -134,6 +135,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.btnDownloadVideo);
             this.groupBox1.Controls.Add(this.tbOutput);
             this.groupBox1.Controls.Add(this.btnDownload);
             this.groupBox1.Location = new System.Drawing.Point(12, 333);
@@ -163,7 +165,7 @@
             this.btnDownload.Name = "btnDownload";
             this.btnDownload.Size = new System.Drawing.Size(131, 23);
             this.btnDownload.TabIndex = 0;
-            this.btnDownload.Text = "Download";
+            this.btnDownload.Text = "Download MP3";
             this.btnDownload.UseVisualStyleBackColor = true;
             this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
             // 
@@ -273,6 +275,16 @@
             this.pbYdl.Size = new System.Drawing.Size(301, 23);
             this.pbYdl.TabIndex = 6;
             // 
+            // btnDownloadVideo
+            // 
+            this.btnDownloadVideo.Location = new System.Drawing.Point(6, 51);
+            this.btnDownloadVideo.Name = "btnDownloadVideo";
+            this.btnDownloadVideo.Size = new System.Drawing.Size(131, 23);
+            this.btnDownloadVideo.TabIndex = 2;
+            this.btnDownloadVideo.Text = "Download Video";
+            this.btnDownloadVideo.UseVisualStyleBackColor = true;
+            this.btnDownloadVideo.Click += new System.EventHandler(this.btnDownloadVideo_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -328,5 +340,6 @@
         private ProgressBar pbFfmpeg;
         private ProgressBar pbYdl;
         private TextBox tbOutput;
+        private Button btnDownloadVideo;
     }
 }
