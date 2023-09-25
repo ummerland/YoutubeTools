@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using System.IO.Compression;
-using System.Net;
 using System.Web;
 using YoutubeToolsApp.Data;
 
@@ -43,7 +42,7 @@ namespace YoutubeToolsApp
 
         private void llYdl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("rundll32", "url.dll,FileProtocolHandler https://github.com/ytdl-org/youtube-dl");
+            System.Diagnostics.Process.Start("rundll32", "url.dll,FileProtocolHandler https://github.com/ytdl-org/ytdl-nightly");
         }
 
         private async void btnUpdateFfmpeg_Click(object sender, EventArgs e)
@@ -101,7 +100,8 @@ namespace YoutubeToolsApp
         {
             btnUpdateYdl.Enabled = false;
 
-            var downloadFileUrl = "https://github.com/ytdl-org/youtube-dl/releases/download/2021.12.17/youtube-dl.exe";
+            var downloadFileUrl = "https://github.com/ytdl-org/ytdl-nightly/releases/latest/download/youtube-dl.exe";
+
             var destinationFilePath = Path.GetFullPath("youtube-dl.exe");
             using (var client = new HttpClientDownloadWithProgress(downloadFileUrl, destinationFilePath))
             {
@@ -134,17 +134,18 @@ namespace YoutubeToolsApp
             var p = new Process
             {
                 StartInfo = new ProcessStartInfo
-                 {
-                     FileName = "youtube-dl.exe",
-                     Arguments = $"-x --audio-format mp3 {webView.Source.ToString()}",
-                     UseShellExecute = false,
-                     RedirectStandardOutput = true,
-                     RedirectStandardError = true,
-                     CreateNoWindow = true
-                 }
+                {
+                    FileName = "youtube-dl.exe",
+                    Arguments = $"-x --audio-format mp3 {webView.Source.ToString()} --verbose",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true
+                }
             };
 
             p.OutputDataReceived += P_OutputDataReceived;
+            p.ErrorDataReceived += P_ErrorDataReceived;
             p.EnableRaisingEvents = true;
 
             btnDownload.Enabled = false;
@@ -158,6 +159,11 @@ namespace YoutubeToolsApp
             tbOutput.Invoke(() => tbOutput.AppendText($"\r\nDOWNLOAD COMPLETE"));
             btnDownload.Enabled = true;
 
+        }
+
+        private void P_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            tbOutput.Invoke(() => tbOutput.AppendText($"\r\nERROR: {e.Data}"));
         }
 
         private void P_OutputDataReceived(object sender, DataReceivedEventArgs e)
